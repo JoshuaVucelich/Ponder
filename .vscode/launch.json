@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "neoforge - Client",
+      "presentation": {
+        "group": "Mod Development - neoforge",
+        "order": 0
+      },
+      "projectName": "testmod-neoforge",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/Users/joshuavucelich/Minecraft mods/Ponder/testmod/neoforge/build/moddev/clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/Users/joshuavucelich/Minecraft mods/Ponder/testmod/neoforge/build/moddev/clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dtestmod%%/Users/joshuavucelich/Minecraft mods/Ponder/testmod/neoforge/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/testmod/neoforge/run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "neoforge - Server",
+      "presentation": {
+        "group": "Mod Development - neoforge",
+        "order": 1
+      },
+      "projectName": "testmod-neoforge",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/Users/joshuavucelich/Minecraft mods/Ponder/testmod/neoforge/build/moddev/serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/Users/joshuavucelich/Minecraft mods/Ponder/testmod/neoforge/build/moddev/serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dtestmod%%/Users/joshuavucelich/Minecraft mods/Ponder/testmod/neoforge/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/testmod/neoforge/run/server",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}

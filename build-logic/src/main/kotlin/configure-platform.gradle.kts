@@ -80,6 +80,7 @@ if (parent!!.name != "testmod") {
     publishing {
         publications.create<MavenPublication>("mavenJava") {
             from(components["java"])
+            artifactId = "${modName}-${project.name}"
         }
 
         repositories {
@@ -107,17 +108,21 @@ extensions.getByType<PackageInfosExtension>().sources(sourceSets.named { it == "
 if (name != "common") {
     tasks.withType<Jar> {
         dependsOn(project(":common").tasks.named("generatePackageInfos"))
+        val siblingCommon = findProject(":${parent!!.name}:common")
+        if (siblingCommon != null && siblingCommon != project(":common")) {
+            dependsOn(siblingCommon.tasks.named("generatePackageInfos"))
+        }
     }
 }
 
-// FIXME: temporary hack - disable everything config-related
+// Config packages need NeoForge ModConfigSpec; keep excluded from common/platform compile until ported.
 tasks.withType<JavaCompile> {
     exclude("**/config")
     exclude("**/ConfigCommand.java")
     exclude("**/ConfigPathArgument.java")
+    exclude("**/ConfirmationScreen.java")
     exclude("**/CClient.java")
     exclude("**/PonderConfig.java")
-    exclude("**/ConfirmationScreen.java")
 }
 
 when (name) {

@@ -6,6 +6,8 @@ plugins {
 dependencies {
     minecraft(libs.minecraft)
     compileOnly(libs.bundles.mixin)
+    // PartialModel + TransformStack used by CachedBuffers / SuperByteBuffer (NeoForge API; Fabric gated off)
+    compileOnly(libs.flywheel.neoforge.api)
 }
 
 loom {

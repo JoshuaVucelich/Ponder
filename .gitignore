@@ -46,3 +46,8 @@ docs/*.sw?
 
 # exclude generated package info files
 **/generatedPackageInfos/**
+._*
+build/
+.gradle/
+run/
+out/

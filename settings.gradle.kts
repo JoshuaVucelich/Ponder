@@ -11,7 +11,13 @@ plugins {
 
 rootProject.name = "ponder"
 
-for (platform in listOf("common", "fabric", "neoforge")) {
+val platforms = mutableListOf("common", "neoforge")
+// Fabric subprojects fail configuration without flywheel-fabric-26.1; enable with -PincludeFabric.
+if (providers.gradleProperty("includeFabric").isPresent) {
+    platforms += "fabric"
+}
+
+for (platform in platforms) {
     include(platform)
 
     include(":catnip:$platform")

@@ -1,16 +1,23 @@
 package net.createmod.catnip.api.client.render;
 
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
-
-import org.joml.Matrix4f;
+import org.joml.Matrix3fc;
+import org.joml.Matrix4fc;
+import org.joml.Quaternionfc;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.api.theme.Color;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.util.LightCoordsUtil;
+import org.joml.Matrix4f;
 
-public interface SuperByteBuffer {
+/**
+ * Byte buffer helper for replaying baked models with local transforms.
+ * Extends Flywheel {@link TransformStack} so Create can chain translate/rotate helpers on buffers.
+ */
+public interface SuperByteBuffer extends TransformStack<SuperByteBuffer> {
 	static int maxLight(int packedLight1, int packedLight2) {
 		int blockLight1 = LightCoordsUtil.block(packedLight1);
 		int skyLight1 = LightCoordsUtil.sky(packedLight1);
@@ -53,6 +60,60 @@ public interface SuperByteBuffer {
 	 * Light Positions will be transformed by the passed Matrix before the lookup.
 	 */
 	<Self extends SuperByteBuffer> Self useLevelLight(BlockAndTintGetter level, Matrix4f lightTransform);
+
+	// --- TransformStack / Affine (delegate to local PoseStack) ---
+
+	@Override
+	default SuperByteBuffer pushPose() {
+		getTransforms().pushPose();
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer popPose() {
+		getTransforms().popPose();
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer mulPose(Matrix4fc pose) {
+		getTransforms().last().pose().mul(pose);
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer mulNormal(Matrix3fc normal) {
+		getTransforms().last().normal().mul(normal);
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer translate(float x, float y, float z) {
+		getTransforms().translate(x, y, z);
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer rotate(Quaternionfc quaternion) {
+		PoseStack.Pose pose = getTransforms().last();
+		pose.pose().rotate(quaternion);
+		pose.normal().rotate(quaternion);
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer rotateAround(Quaternionfc quaternion, float x, float y, float z) {
+		PoseStack.Pose pose = getTransforms().last();
+		pose.pose().rotateAround(quaternion, x, y, z);
+		pose.normal().rotate(quaternion);
+		return this;
+	}
+
+	@Override
+	default SuperByteBuffer scale(float factorX, float factorY, float factorZ) {
+		getTransforms().scale(factorX, factorY, factorZ);
+		return this;
+	}
 
 	//
 

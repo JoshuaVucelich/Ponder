@@ -8,11 +8,21 @@ public class PlacementHelpers {
 	private static final List<IPlacementHelper> registry = new ArrayList<>();
 	private static final List<IPlacementHelper> registryView = Collections.unmodifiableList(registry);
 
-	public static <T extends IPlacementHelper> T register(T helper) {
+	public static int register(IPlacementHelper helper) {
 		registry.add(helper);
-		return helper;
+		return registry.size() - 1;
 	}
 
+	public static IPlacementHelper get(int id) {
+		return registry.get(id);
+	}
+
+	public static List<IPlacementHelper> getAll() {
+		return registryView;
+	}
+
+	/** @deprecated use {@link #getAll()} */
+	@Deprecated
 	public static List<IPlacementHelper> get() {
 		return registryView;
 	}

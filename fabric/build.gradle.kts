@@ -23,9 +23,7 @@ loom {
     }
 }
 
-tasks.runClientRenderDoc {
-    renderDocExecutable = file("/usr/bin/renderdoccmd")
-}
+// RenderDoc run config is optional dev tooling; omitted when task isn't provided by Loom
 
 dependencies {
     minecraft(libs.minecraft)

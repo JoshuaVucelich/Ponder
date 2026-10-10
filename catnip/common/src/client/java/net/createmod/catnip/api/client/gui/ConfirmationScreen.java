@@ -194,7 +194,7 @@ public class ConfirmationScreen extends AbstractSimiScreen {
 	protected void renderWindowBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
 		endFrame();
 
-		source.render(graphics, 0, 0, 10); // zero mouse coords to prevent further tooltips
+		source.extractRenderStateWithTooltipAndSubtitles(graphics, 0, 0, 10); // zero mouse coords to prevent further tooltips
 
 		prepareFrame();
 
